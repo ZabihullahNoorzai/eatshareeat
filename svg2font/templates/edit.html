@@ -1,0 +1,28 @@
+{% extends 'base.html'%}
+
+{% block title%}
+    <title>Edite User</title>
+{% endblock title %}
+
+{% block content %}
+
+<div class="div-block">
+    <div class="dive">
+      
+      {% if all_users.manager == request.user %}
+      <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">User Name</label>
+          <input type="text" class="form-control" placeholder="{{ all_users.user}}" value="{{ all_users.user }}" name="user" id="exampleInputEmail1" aria-describedby="emailHelp">
+          {% comment %} <input type="checkbox" checked="checked" name="done" value="False"> {% endcomment %}
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+    {% else%}
+      <p>Access Restricted, You are Not Allowed!</p>
+      {% endif %}
+</div>
+</div>
+{% endblock content %}
+

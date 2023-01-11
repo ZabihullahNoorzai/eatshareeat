@@ -1,0 +1,124 @@
+{% extends 'base.html' %}  
+
+{% block title %}
+  <title>Home Page</title>
+{% endblock %}
+
+{% block content%}
+ <div class="row">
+  <div class="col-lg-4"></div>
+  <div class="col-lg-4">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'svg2font'%}">Navbar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'about_us'%}">About US</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link " href="{% url 'contact_us'%}">Contact Us</a>
+            </li>
+          </ul>
+          <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+</div>
+<div class="col-lg-4"></div>
+</div>
+
+
+
+
+<div class="div-block">
+  <div class="dive">
+  </br>
+  <div>
+    {% for message in messages%}
+      
+      <div class="alert alert-info alrt-dismissible fade show" role="alert">
+        {{message}}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        
+      </div>
+    {% endfor %}
+  </div>
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">User Name</label>
+        <input type="text" class="form-control" name="user" id="exampleInputEmail1" aria-describedby="emailHelp">
+        <input type="checkbox" checked="checked" name="done" value="False">
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  
+  </br>
+   
+    <table class="table table-striped table-hover align-middle">
+      <thead>
+        <tr>
+          <th scope="col">User Name</th>
+          <th scope="col">Done</th>
+          <th scope="col">Edite</th>
+          <th scope="col">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for obj in all_users %}
+        {% if obj.done %}
+            <tr class="table-success">
+              <td>{{obj.user}}</td>
+              <td class="primary"><a href="{% url 'user_activaty' obj.id %}">Completed</a></td>
+              <td><a href="{% url 'user_edit' obj.id %}"><button class="btn btn-primary">Edit</button></a></td>
+              <td> <a href="{% url 'delete_user' obj.id %}"> <button class="btn btn-danger">Delete</button> </a> </td>
+            </tr>
+        
+        {% else %}
+          <tr>
+            <td>{{obj.user}}</td>
+            <td><a href="{% url 'user_activaty' obj.id %}">Not Completed</a></td>
+            <td><a href="{% url 'user_edit' obj.id %}"><button class="btn btn-primary">Edit</button></a></td>
+            <td> <a href="{% url 'delete_user' obj.id %}"> <button class="btn btn-danger">Delete</button> </a> </td>
+          </tr>
+        {% endif %}
+    {% endfor %}
+      </tbody>
+    </table>
+    
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+        <li class="page-item ">
+          <a class="page-link" href="?page=1"><<</a>
+        </li>
+        {% if all_users.has_previous%}
+             <li class="page-item"><a class="page-link" href="?page={{ all_users.previous_page_number }}">{{ all_users.previous_page_number }}</a></li>
+        {% endif%}
+        <li class="page-item"><a class="page-link" href="?page={{ all_users.number}}">{{ all_users.number}}</a></li>
+        {% if all_users.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ all_users.next_page_number }}">{{ all_users.next_page_number }}</a></li>
+        {% endif %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ all_users.paginator.num_pages }}">>></a>
+          </li>
+        
+      </ul>
+    </nav>
+
+  </div>
+</div>
+{% endblock %}
+
+
+
