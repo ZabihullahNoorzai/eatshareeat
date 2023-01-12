@@ -1,2 +1,2 @@
-web: python manage.py migrate && gunicorn svgtofonticon.wsgi
+web:python manage.py gunicorn svgtofonticon.wsgi
 
