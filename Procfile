@@ -1,1 +1,1 @@
-web: python manage.py makemigrations && python manage.py migrate && gunicorn svgtofonticon.wsgi
+web: gunicorn svgtofonticon.wsgi --log-file -
